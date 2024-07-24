@@ -15,6 +15,11 @@ FilamentPHP'ye giriş yapın ve super_admin rolüne sahipsiniz. Projenin backend
 
 Resimler için <code>php artisan storage:link</code> kodunu yazın.
 
+kvkk ve gizlilik politikası yeni ekleme kapalı olduğundan lütfen sırasıyla <br>
+<code>php artisan db:seed --class=Kvkk </code> <br>
+<code>php artisan db:seed --class=Privacy</code> <br>
+komutlarını kullanın.
+
 <hr>
 <h1>Blog Sitesinin frontend kısmı için </h1><br>
 
