@@ -13,6 +13,8 @@ komudunu kullanın. <br>
 
 FilamentPHP'ye giriş yapın ve super_admin rolüne sahipsiniz. Projenin backend kısmına erişmiş oldunuz.
 
+Resimler için <code>php artisan storage:link</code> kodunu yazın.
+
 <hr>
 <h1>Blog Sitesinin frontend kısmı için </h1><br>
 composer update ondan sonra ise <br>
