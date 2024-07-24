@@ -9,6 +9,7 @@ env dosyası için <br> <code>copy .env.example .env</code> <br> komutunu çalı
 Proje ayağa kalktığı zaman filamentphp için admin kullanıcısı oluşturmak için <br>
 <code> php artisan make:filament-user </code>
 komudunu kullanın. <br>
+<code> php artisan shield:install </code> komudunu kullanın. <br>
 
 FilamentPHP'ye giriş yapın ve super_admin rolüne sahipsiniz. Projenin backend kısmına erişmiş oldunuz.
 
