@@ -25,13 +25,13 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
         'name',
         'email',
         'password',
-        'profile_photo',
+        'avatar_url',
         'profile_bio',
     ];
 
     public function getFilamentAvatarUrl(): ?string
     {
-        return $this->profile_photo ? asset('storage/' . $this->profile_photo) : null;
+        return $this->avatar_url ? asset('storage/' . $this->avatar_url) : null;
     }
 
     /**
