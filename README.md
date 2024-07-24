@@ -17,5 +17,11 @@ Resimler için <code>php artisan storage:link</code> kodunu yazın.
 
 <hr>
 <h1>Blog Sitesinin frontend kısmı için </h1><br>
-composer update ondan sonra ise <br>
-php artisan serve yazdığınızda proje çalışacaktır.
+
+blog-frontend dosyasına girin (<code>cd blog-frontend</code>) <br>
+<code>docker-compose up -d --build </code> kodunu kullanarak dockeri kurun. <br>
+eğer ki dockerde projeniz açılmazsa <code> composer install </code> komutunu kullanın.
+tekrardan <code>docker-compose up -d --build </code> komudunu kullanın.
+
+localhost:8182 portunda projeyi açabilirsiniz.
+
