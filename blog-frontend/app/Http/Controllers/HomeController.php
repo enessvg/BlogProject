@@ -10,13 +10,13 @@ class HomeController extends Controller
 {
 
     public function index() {
-        $allPostsResponse = Http::get('http://localhost:8181/api/post');
+        $allPostsResponse = Http::get('http://host.docker.internal:8181/api/post');
         $allPosts = $allPostsResponse->json()['post'];
 
-        $popularPostsResponse = Http::get('http://localhost:8181/api/popular-post');
+        $popularPostsResponse = Http::get('http://host.docker.internal:8181/api/popular-post');
         $popularPosts = $popularPostsResponse->json()['post'];
 
-        $allCategoryResponse = Http::get('http://localhost:8181/api/category');
+        $allCategoryResponse = Http::get('http://host.docker.internal:8181/api/category');
         $allCategory = $allCategoryResponse->json()['categories'];
 
         return view('home', [
@@ -27,7 +27,7 @@ class HomeController extends Controller
     }
 
     public function SingleCategory($slug){
-        $response = Http::get("http://localhost:8181/api/category/{$slug}");
+        $response = Http::get("http://host.docker.internal:8181/api/category/{$slug}");
 
         if ($response->json()['status'] === false) {
             // Kategori bulunamadıysa 404 sayfasına yönlendir
@@ -39,7 +39,7 @@ class HomeController extends Controller
         $CategoryPost = $response->json()['posts'];
 
         //bunları navbarda kategoriler kısmında allCategory bulamadığı için yazdım.
-        $responseCategory = Http::get('http://localhost:8181/api/category');
+        $responseCategory = Http::get('http://host.docker.internal:8181/api/category');
         $allCategory = $responseCategory->json()['categories'];
 
         return view('category', ['categorie' => $categorie, 'categoryPost' => $CategoryPost, 'allCategory' => $allCategory]);
@@ -47,24 +47,24 @@ class HomeController extends Controller
 
 
     public function kvkk(){
-        $response = Http::get('http://localhost:8181/api/kvkk-aydinlatma-metni');
+        $response = Http::get('http://host.docker.internal:8181/api/kvkk-aydinlatma-metni');
 
         $kvkk_text = $response->json()['kvkk'];
 
         //bunları navbarda kategoriler kısmında allCategory bulamadığı için yazdım.
-        $responseCategory = Http::get('http://localhost:8181/api/category');
+        $responseCategory = Http::get('http://host.docker.internal:8181/api/category');
         $allCategory = $responseCategory->json()['categories'];
 
         return view('site.kvkk-aydinlatma-metni', ['kvkk' => $kvkk_text, 'allCategory' => $allCategory]);
     }
 
     public function privacy_policy(){
-        $response = Http::get('http://localhost:8181/api/privacy-policy');
+        $response = Http::get('http://host.docker.internal:8181/api/privacy-policy');
 
         $policy_text = $response->json()['privacy_policy'];
 
         //bunları navbarda kategoriler kısmında allCategory bulamadığı için yazdım.
-        $responseCategory = Http::get('http://localhost:8181/api/category');
+        $responseCategory = Http::get('http://host.docker.internal:8181/api/category');
         $allCategory = $responseCategory->json()['categories'];
 
         return view('site.privacy-policy', ['privacy_policy' => $policy_text, 'allCategory' => $allCategory]);
@@ -85,7 +85,7 @@ class HomeController extends Controller
             ->withFragment('comment-form-section'); //linke # olarak ekliyor ve istediğim yere götürebiliyorum.
         }
 
-        $response = Http::post('http://localhost:8181/api/comments',[
+        $response = Http::post('http://host.docker.internal:8181/api/comments',[
             'post_id' => $request->post_id,
             'name' => $request->name,
             'email' => $request->email,

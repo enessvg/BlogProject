@@ -9,7 +9,7 @@ class FrontendPostController extends Controller
 {
     public function show($slug)
     {
-        $response = Http::get("http://localhost:8181/api/post/detail/{$slug}");
+        $response = Http::get("http://host.docker.internal:8181/api/post/detail/{$slug}");
 
         if ($response->json()['status'] === false) {
 
@@ -23,7 +23,7 @@ class FrontendPostController extends Controller
         $comments = $response->json()['comments'];
 
         //bunları navbarda kategoriler kısmında allCategory bulamadığı için yazdım.
-        $responseCategory = Http::get('http://localhost:8181/api/category');
+        $responseCategory = Http::get('http://host.docker.internal:8181/api/category');
         $allCategory = $responseCategory->json()['categories'];
 
         return view('post-detail', ['post' => $post, 'comments' => $comments, 'allCategory' => $allCategory]);

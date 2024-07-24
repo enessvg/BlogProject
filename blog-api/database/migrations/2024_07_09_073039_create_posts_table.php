@@ -23,7 +23,6 @@ return new class extends Migration
             $table->integer('post_views')->default(0);
             $table->date('start_date');
             $table->date('end_date');
-            $table->json('tags');
             $table->timestamps();
         });
     }
