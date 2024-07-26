@@ -10,6 +10,7 @@ use Filament\Models\Contracts\HasAvatar;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements FilamentUser, HasAvatar
@@ -30,9 +31,13 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
     ];
 
     public function getFilamentAvatarUrl(): ?string
-    {
-        return $this->avatar_url ? asset('storage/' . $this->avatar_url) : null;
+    {   //avatar url yoksa VEYA öyle bir dosya yoksa if varsa alttaki
+        if (empty($this->avatar_url) || !Storage::exists('public/' . $this->avatar_url)) {
+            return asset('storage/default/350-350.png');
+        }
+        return asset('storage/' . $this->avatar_url);
     }
+
 
     /**
      * The attributes that should be hidden for serialization.

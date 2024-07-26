@@ -68,41 +68,41 @@ class HomeController extends Controller
     }
 
 
-    public function commentPost(Request $request){
+    // public function commentPost(Request $request){
 
-        $validateComment = Validator::make($request->all(),[
-            'post_id' => 'required',
-            'name' => 'required',
-            'email' => 'required|email|min:2',
-            'content' => 'required|min:3',
-        ]);
+    //     $validateComment = Validator::make($request->all(),[
+    //         'post_id' => 'required',
+    //         'name' => 'required',
+    //         'email' => 'required|email|min:2',
+    //         'content' => 'required|min:3',
+    //     ]);
 
-        if ($validateComment->fails()) {
-            return back()
-            ->withErrors($validateComment)
-            ->withInput() // mesela post atıyor name kısmını doldurmuş ama diğer yerleri boş bırakmış withInput sayesinde name kısmını koruyarak bidaha yazmamasını sağlıyorum. onuda {{ old('...') }} ile sağlıyorum form üzerinde
-            ->withFragment('comment-form-section'); //linke # olarak ekliyor ve istediğim yere götürebiliyorum.
-        }
+    //     if ($validateComment->fails()) {
+    //         return back()
+    //         ->withErrors($validateComment)
+    //         ->withInput() // mesela post atıyor name kısmını doldurmuş ama diğer yerleri boş bırakmış withInput sayesinde name kısmını koruyarak bidaha yazmamasını sağlıyorum. onuda {{ old('...') }} ile sağlıyorum form üzerinde
+    //         ->withFragment('comment-form-section'); //linke # olarak ekliyor ve istediğim yere götürebiliyorum.
+    //     }
 
-        $response = Http::post($this->apiUrl.'api/comments',[
-            'post_id' => $request->post_id,
-            'name' => $request->name,
-            'email' => $request->email,
-            'content' => $request->content,
-        ]);
+    //     $response = Http::post($this->apiUrl.'api/comments',[
+    //         'post_id' => $request->post_id,
+    //         'name' => $request->name,
+    //         'email' => $request->email,
+    //         'content' => $request->content,
+    //     ]);
 
-        if($response->successful()) {
-            return back()->withFragment('comment-form-section')->withErrors(['commentSuccess' => 'Your comment has been submitted. It will appear when the administrator approves it.']);
-        } else {
-            return back()->withFragment('comment-form-section')->withErrors(['commentError' => 'Your comment could not be sent. Try again later']);
-        }
-    }
+    //     if($response->successful()) {
+    //         return back()->withFragment('comment-form-section')->withErrors(['commentSuccess' => 'Your comment has been submitted. It will appear when the administrator approves it.']);
+    //     } else {
+    //         return back()->withFragment('comment-form-section')->withErrors(['commentError' => 'Your comment could not be sent. Try again later']);
+    //     }
+    // }
 
-    public function commentGet() {
-        //kendimce sayfayı korumak amaçlı yaptım.
-        $url = config('services.site_url');
-        return redirect($url);
-    }
+    // public function commentGet() {
+    //     //kendimce sayfayı korumak amaçlı yaptım.
+    //     $url = config('services.site_url');
+    //     return redirect($url);
+    // }
 
 
 }
