@@ -8,15 +8,19 @@ use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
 {
-
+    private $apiUrl;
+    public function __construct() {
+        $this->apiUrl = config('services.api_url');
+    }
     public function index() {
-        $allPostsResponse = Http::get('http://host.docker.internal:8181/api/post');
+
+        $allPostsResponse = Http::get($this->apiUrl.'api/post');
         $allPosts = $allPostsResponse->json()['post'];
 
-        $popularPostsResponse = Http::get('http://host.docker.internal:8181/api/popular-post');
+        $popularPostsResponse = Http::get($this->apiUrl.'api/popular-post');
         $popularPosts = $popularPostsResponse->json()['post'];
 
-        $allCategoryResponse = Http::get('http://host.docker.internal:8181/api/category');
+        $allCategoryResponse = Http::get($this->apiUrl.'api/category');
         $allCategory = $allCategoryResponse->json()['categories'];
 
         return view('home', [
@@ -26,8 +30,9 @@ class HomeController extends Controller
         ]);
     }
 
-    public function SingleCategory($slug){
-        $response = Http::get("http://host.docker.internal:8181/api/category/{$slug}");
+    public function singleCategorie($slug){
+
+        $response = Http::get($this->apiUrl."api/category/{$slug}");
 
         if ($response->json()['status'] === false) {
             // Kategori bulunamadıysa 404 sayfasına yönlendir
@@ -39,38 +44,32 @@ class HomeController extends Controller
         $CategoryPost = $response->json()['posts'];
 
         //bunları navbarda kategoriler kısmında allCategory bulamadığı için yazdım.
-        $responseCategory = Http::get('http://host.docker.internal:8181/api/category');
+        $responseCategory = Http::get($this->apiUrl.'api/category');
         $allCategory = $responseCategory->json()['categories'];
 
         return view('category', ['categorie' => $categorie, 'categoryPost' => $CategoryPost, 'allCategory' => $allCategory]);
     }
 
+    public function agreements($slug){
+        $response = Http::get($this->apiUrl."api/agreement/{$slug}");
 
-    public function kvkk(){
-        $response = Http::get('http://host.docker.internal:8181/api/kvkk-aydinlatma-metni');
+        if ($response->json()['status'] === false) {
+            // Kategori bulunamadıysa 404 sayfasına yönlendir
+            abort(404, 'The category you are trying to view was not found!');
+        }
 
-        $kvkk_text = $response->json()['kvkk'];
-
-        //bunları navbarda kategoriler kısmında allCategory bulamadığı için yazdım.
-        $responseCategory = Http::get('http://host.docker.internal:8181/api/category');
-        $allCategory = $responseCategory->json()['categories'];
-
-        return view('site.kvkk-aydinlatma-metni', ['kvkk' => $kvkk_text, 'allCategory' => $allCategory]);
-    }
-
-    public function privacy_policy(){
-        $response = Http::get('http://host.docker.internal:8181/api/privacy-policy');
-
-        $policy_text = $response->json()['privacy_policy'];
+        $agreements = $response->json()['agreements'];
 
         //bunları navbarda kategoriler kısmında allCategory bulamadığı için yazdım.
-        $responseCategory = Http::get('http://host.docker.internal:8181/api/category');
+        $responseCategory = Http::get($this->apiUrl.'api/category');
         $allCategory = $responseCategory->json()['categories'];
 
-        return view('site.privacy-policy', ['privacy_policy' => $policy_text, 'allCategory' => $allCategory]);
+        return view('site.agreements', ['agreements' => $agreements, 'allCategory' => $allCategory]);
     }
+
 
     public function commentPost(Request $request){
+
         $validateComment = Validator::make($request->all(),[
             'post_id' => 'required',
             'name' => 'required',
@@ -85,7 +84,7 @@ class HomeController extends Controller
             ->withFragment('comment-form-section'); //linke # olarak ekliyor ve istediğim yere götürebiliyorum.
         }
 
-        $response = Http::post('http://host.docker.internal:8181/api/comments',[
+        $response = Http::post($this->apiUrl.'api/comments',[
             'post_id' => $request->post_id,
             'name' => $request->name,
             'email' => $request->email,
@@ -101,8 +100,8 @@ class HomeController extends Controller
 
     public function commentGet() {
         //kendimce sayfayı korumak amaçlı yaptım.
-        $appUrl = 'http://127.0.0.1:8000/';
-        return redirect($appUrl);
+        $url = config('services.site_url');
+        return redirect($url);
     }
 
 

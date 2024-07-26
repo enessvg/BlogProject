@@ -18,6 +18,7 @@ use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\IconColumn;
@@ -68,23 +69,28 @@ class PostResource extends Resource
                                 ->columnSpanFull(),
 
                             TextInput::make('title')
-                                ->label('Title')
-                                ->required()
-                                ->live(onBlur: true)
-                                ->unique(ignoreRecord: true)
-                                ->afterStateUpdated(function(string $operation, $state, Forms\Set $set) {
-                                    if ($operation !== 'create') {
-                                        return;
-                                    }
+                            ->required()
+                            ->live(debounce:'1000')
+                            ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
+                            TextInput::make('slug')->required(),
 
-                                    $set('slug', Str::slug($state));
-                                }),
+                            // TextInput::make('title')
+                            //     ->label('Title')
+                            //     ->required()
+                            //     ->live(onBlur: true)
+                            //     ->unique(ignoreRecord: true)
+                            //     ->afterStateUpdated(function(string $operation, $state, Forms\Set $set) {
+                            //         if ($operation !== 'create') {
+                            //             return;
+                            //         }
 
-                            TextInput::make('slug')
-                                ->disabled()
-                                ->dehydrated()
-                                ->required()
-                                ->unique(Post::class, 'slug', ignoreRecord: true),
+                            //         $set('slug', Str::slug($state));
+                            //     }),
+
+                            // TextInput::make('slug')
+                            //     ->dehydrated()
+                            //     ->required()
+                            //     ->unique(Post::class, 'slug', ignoreRecord: true),
 
                                 Select::make('category_id')
                                 ->label('Category')

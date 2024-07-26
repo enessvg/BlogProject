@@ -47,16 +47,6 @@ class CommentController extends Controller
             $comment->content = $request->content;
             $comment->save();
 
-
-        // Super Admin rolünü bul
-        $superAdminRole = Role::where('name', 'super_admin')->first();
-
-        // Bu role sahip kullanıcıların e-posta adreslerini bul
-        $superAdminEmails = User::role($superAdminRole->name)->pluck('email');
-
-        foreach ($superAdminEmails as $email) {
-            SendSuperAdminEmailJob::dispatch($email);
-        }
             // Başarılı mesajı
             return response()->json([
                 'status' => true,

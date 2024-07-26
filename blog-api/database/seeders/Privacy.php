@@ -13,10 +13,10 @@ class Privacy extends Seeder
      */
     public function run(): void
     {
-        DB::table('privacy_policies')->insert([
-            'title' => 'deneme',
-            'slug' => 'deneme',
-            'description' => 'deneme',
-        ]);
+        // DB::table('privacy_policies')->insert([
+        //     'title' => 'deneme',
+        //     'slug' => 'deneme',
+        //     'description' => 'deneme',
+        // ]);
     }
 }

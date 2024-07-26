@@ -18,19 +18,6 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withSchedule(function(Schedule $schedule) {
 
-        $schedule->call(function(){
-            $today = now();
-            //start_date ve end_dateyi gün ile karşılaştırarak is_visibleyi ayarlıyorum.
-        Post::where('start_date', '<=', $today)
-            ->where('end_date', '>=', $today)
-            ->update(['is_visible' => 1]);
-
-        Post::where('end_date', '<', $today)
-            ->orWhere('start_date', '>', $today)
-            ->update(['is_visible' => 0]);
-
-        })->daily();
-
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

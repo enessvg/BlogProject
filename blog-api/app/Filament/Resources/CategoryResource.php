@@ -12,6 +12,7 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\IconColumn;
@@ -45,23 +46,30 @@ class CategoryResource extends Resource
                 ->schema([
                     Section::make('Category Detail')
                     ->schema([
+
                         TextInput::make('name')
                         ->required()
-                        ->live(onBlur: true)
-                        ->unique(ignoreRecord: true)
-                        ->afterStateUpdated(function(string $operation, $state, Forms\Set $set) {
-                            if ($operation !== 'create') {
-                                return;
-                            }
+                        ->live(debounce:'1000')
+                        ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
+                        TextInput::make('slug')->required(),
 
-                            $set('slug', Str::slug($state));
-                        }),
+                        // TextInput::make('name')
+                        // ->required()
+                        // ->live(onBlur: true)
+                        // ->unique(ignoreRecord: true)
+                        // ->afterStateUpdated(function(string $operation, $state, Forms\Set $set) {
+                        //     if ($operation !== 'create') {
+                        //         return;
+                        //     }
 
-                        TextInput::make('slug')
-                        ->disabled()
-                        ->dehydrated()
-                        ->required()
-                        ->unique(Category::class, 'slug', ignoreRecord: true),
+                        //     $set('slug', Str::slug($state));
+                        // }),
+
+                        // TextInput::make('slug')
+                        // ->disabled()
+                        // ->dehydrated()
+                        // ->required()
+                        // ->unique(Category::class, 'slug', ignoreRecord: true),
 
                         Toggle::make('is_visible')
                         ->label('Visible')

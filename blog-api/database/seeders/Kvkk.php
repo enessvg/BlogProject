@@ -13,10 +13,10 @@ class Kvkk extends Seeder
      */
     public function run(): void
     {
-        DB::table('kvkks')->insert([
-            'title' => 'deneme',
-            'slug' => 'deneme',
-            'description' => 'deneme',
-        ]);
+        // DB::table('kvkks')->insert([
+        //     'title' => 'deneme',
+        //     'slug' => 'deneme',
+        //     'description' => 'deneme',
+        // ]);
     }
 }

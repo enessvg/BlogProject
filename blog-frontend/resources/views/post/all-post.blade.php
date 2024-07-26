@@ -15,7 +15,8 @@
         </div>
     </div>
 
-    @else
+    @endif
+
     <div class="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 p-5 mb-5 mt-5 flex-wrap ">
         @foreach ($post as $posts)
                 <div class="custom-center">
@@ -47,4 +48,4 @@
                 </div>
         @endforeach
     </div>
-@endif
+

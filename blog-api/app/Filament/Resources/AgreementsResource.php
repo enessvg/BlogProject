@@ -2,16 +2,16 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\KvkkResource\Pages;
-use App\Filament\Resources\KvkkResource\RelationManagers;
-use App\Models\Kvkk;
+use App\Filament\Resources\AgreementsResource\Pages;
+use App\Filament\Resources\AgreementsResource\RelationManagers;
+use App\Models\Agreements;
 use Filament\Forms;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
@@ -21,17 +21,15 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Str;
 
 
-class KvkkResource extends Resource
+class AgreementsResource extends Resource
 {
-    protected static ?string $model = Kvkk::class;
+    protected static ?string $model = Agreements::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
     protected static ?string $navigationGroup = 'Admin';
-    protected static ?string $navigationLabel = 'KVKK Text';
+    protected static ?string $navigationLabel = 'Agreements';
     protected static ?int $navigationSort = 53;
-
-
 
     public static function form(Form $form): Form
     {
@@ -39,28 +37,34 @@ class KvkkResource extends Resource
             ->schema([
                 Group::make()
                 ->schema([
-                    Section::make('KVKK Detail')
+                    Section::make('Detail')
                         ->schema([
                             TextInput::make('title')
-                                ->label('Title')
-                                ->required()
-                                ->live(onBlur: true)
-                                ->unique(ignoreRecord: true)
-                                ->afterStateUpdated(function(string $operation, $state, Forms\Set $set) {
-                                    if ($operation !== 'create') {
-                                        return;
-                                    }
+                            ->required()
+                            ->live(debounce:'1000')
+                            ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
+                            TextInput::make('slug')->required(),
 
-                                    $set('slug', Str::slug($state));
-                                }),
+                            // TextInput::make('title')
+                            //     ->label('Title')
+                            //     ->required()
+                            //     ->live(onBlur: true)
+                            //     ->unique(ignoreRecord: true)
+                            //     ->afterStateUpdated(function(string $operation, $state, Forms\Set $set) {
+                            //         if ($operation !== 'create') {
+                            //             return;
+                            //         }
 
-                            TextInput::make('slug')
-                                ->disabled()
-                                ->dehydrated()
-                                ->required(),
+                            //         $set('slug', Str::slug($state));
+                            //     }),
+
+                            // TextInput::make('slug')
+                            //     ->disabled()
+                            //     ->dehydrated()
+                            //     ->required(),
 
                             MarkdownEditor::make('description')
-                                ->label('KVKK details')
+                                ->label('Details')
                                 ->columnSpan('full')
                                 ->required(),
                         ])
@@ -86,7 +90,7 @@ class KvkkResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    // Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -101,9 +105,9 @@ class KvkkResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListKvkks::route('/'),
-            'create' => Pages\CreateKvkk::route('/create'),
-            'edit' => Pages\EditKvkk::route('/{record}/edit'),
+            'index' => Pages\ListAgreements::route('/'),
+            'create' => Pages\CreateAgreements::route('/create'),
+            'edit' => Pages\EditAgreements::route('/{record}/edit'),
         ];
     }
 }

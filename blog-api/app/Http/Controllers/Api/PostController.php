@@ -11,7 +11,7 @@ class PostController extends Controller
 {
     public function index(){
         $posts = Post::orderBy('id', 'desc')//en son ki yazı başa gelmesi için böyle yaptım.
-        ->where('is_visible', 1)
+        ->visible()
         ->get();
 
         return response()->json([
@@ -21,11 +21,11 @@ class PostController extends Controller
         ], 200);
     }
 
-    public function populerPost()
+    public function popularPost()
     {
         $posts = Post::orderBy('post_views', 'desc')
-        ->where('is_visible', 1)
-        ->limit(8)
+        ->visible()
+        ->limit(config('settings.popular_limit'))
         ->get();
 
         return response()->json([
@@ -38,7 +38,7 @@ class PostController extends Controller
 
     public function show($slug){
         // Post'u slug ile bul
-        $post = Post::where('slug', $slug)->where('is_visible', 1)->first();
+        $post = Post::where('slug', $slug)->visible()->first();
 
         if (!$post) {
             return response()->json([
@@ -46,10 +46,6 @@ class PostController extends Controller
                 'message' => 'The post you are trying to view was not found!'
             ], 404);
         }
-
-        //Görüntülemeyi arttırmak için(To increase viewing)
-        $post->post_views += 1;
-        $post->save();
 
         //comment tablosundaki yorumlarda post_id'si uyuşuyorsa ve görünür haldeyse onları çağırıyorum.
         $comments = Comments::where('post_id', $post->id)

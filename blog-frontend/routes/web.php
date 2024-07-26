@@ -16,13 +16,13 @@ Route::get('post/detail/{slug}', [FrontendPostController::class, 'show']);
 #Post
 
 #Category
-Route::get('/category/{slug}', [HomeController::class, 'SingleCategory']);
+Route::get('/category/{slug}', [HomeController::class, 'singleCategorie']);
 #Category
 
 
-Route::get('/kvkk-aydinlatma-metni', [HomeController::class,'kvkk']);
-Route::get('/gizlilik-politikasi', [HomeController::class,'privacy_policy']);
-
+// Route::get('/kvkk-aydinlatma-metni', [HomeController::class,'kvkk']);
+// Route::get('/gizlilik-politikasi', [HomeController::class,'privacy_policy']);
+Route::get('/{slug}', [HomeController::class, 'agreements']);
 
 
 Route::get('/comment-post', [HomeController::class,'commentGet']); //kendimce sayfayı korumak amaçlı yaptım.

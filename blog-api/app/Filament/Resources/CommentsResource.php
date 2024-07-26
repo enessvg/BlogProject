@@ -17,6 +17,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -86,7 +87,9 @@ class CommentsResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('post.title')
-                ->label('Which post?'),
+                ->label('Which post?')
+                ->sortable()
+                ->limit(30),
 
                 TextColumn::make('name')
                 ->label('Name Surname'),
@@ -98,11 +101,18 @@ class CommentsResource extends Resource
                 ->label('Content')
                 ->limit(100),
 
-                IconColumn::make('is_visible')
-                ->sortable()
-                ->toggleable()
+                ToggleColumn::make('is_visible')
                 ->label('Visibility')
-                ->boolean(),
+                ->sortable()
+                ->beforeStateUpdated(function (Comments $record) {
+                    Comments::where('id', '=', $record->id)->update(['is_visible' => false]);
+                }),
+
+                // IconColumn::make('is_visible')
+                // ->sortable()
+                // ->toggleable()
+                // ->label('Visibility')
+                // ->boolean(),
             ])
             ->filters([
                 //
