@@ -24,11 +24,7 @@ class FrontendPostController extends Controller
 
         $comments = $response->json()['comments'];
 
-        //bunları navbarda kategoriler kısmında allCategory bulamadığı için yazdım.
-        $responseCategory = Http::get($apiUrl.'api/category');
-        $allCategory = $responseCategory->json()['categories'];
-
-        return view('post-detail', ['post' => $post, 'comments' => $comments, 'allCategory' => $allCategory]);
+        return view('post-detail', ['post' => $post, 'comments' => $comments]);
         }
 
 

@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Cache;
+
 
 
 class Post extends Model
@@ -40,6 +42,12 @@ class Post extends Model
             $post->post_views += 1;
             $post->save();
         });
+
+        static::created(function($post){
+            Cache::forget('_all_posts');
+            Cache::forget('_popular_post');
+        });
+
     }
 
     public function scopeVisible(Builder $query)

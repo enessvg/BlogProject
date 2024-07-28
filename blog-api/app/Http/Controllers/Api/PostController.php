@@ -5,14 +5,18 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Comments;
 use App\Models\Post;
+use Illuminate\Support\Facades\Cache;
+
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
     public function index(){
-        $posts = Post::orderBy('id', 'desc')//en son ki yazı başa gelmesi için böyle yaptım.
-        ->visible()
-        ->get();
+        $posts = Cache::remember('_all_posts', now()->addMinutes(10), function () {
+            return Post::orderBy('id', 'desc') //en son ki yazı başa gelmesi için böyle yaptım.
+                ->visible()
+                ->get();
+        });
 
         return response()->json([
             'status' => true,
@@ -23,10 +27,12 @@ class PostController extends Controller
 
     public function popularPost()
     {
-        $posts = Post::orderBy('post_views', 'desc')
-        ->visible()
-        ->limit(config('settings.popular_limit'))
-        ->get();
+        $posts = Cache::remember('_popular_post', now()->addMinutes(10), function(){
+            return Post::orderBy('post_views', 'desc')
+            ->visible()
+            ->limit(config('settings.popular_limit'))
+            ->get();
+        });
 
         return response()->json([
             'status' => true,

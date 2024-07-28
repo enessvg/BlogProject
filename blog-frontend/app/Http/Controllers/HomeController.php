@@ -20,13 +20,9 @@ class HomeController extends Controller
         $popularPostsResponse = Http::get($this->apiUrl.'api/popular-post');
         $popularPosts = $popularPostsResponse->json()['post'];
 
-        $allCategoryResponse = Http::get($this->apiUrl.'api/category');
-        $allCategory = $allCategoryResponse->json()['categories'];
-
         return view('home', [
             'allPosts' => $allPosts,
             'popularPosts' => $popularPosts,
-            'allCategory' => $allCategory,
         ]);
     }
 
@@ -43,11 +39,7 @@ class HomeController extends Controller
 
         $CategoryPost = $response->json()['posts'];
 
-        //bunları navbarda kategoriler kısmında allCategory bulamadığı için yazdım.
-        $responseCategory = Http::get($this->apiUrl.'api/category');
-        $allCategory = $responseCategory->json()['categories'];
-
-        return view('category', ['categorie' => $categorie, 'categoryPost' => $CategoryPost, 'allCategory' => $allCategory]);
+        return view('category', ['categorie' => $categorie, 'categoryPost' => $CategoryPost]);
     }
 
     public function agreements($slug){
@@ -60,11 +52,7 @@ class HomeController extends Controller
 
         $agreements = $response->json()['agreements'];
 
-        //bunları navbarda kategoriler kısmında allCategory bulamadığı için yazdım.
-        $responseCategory = Http::get($this->apiUrl.'api/category');
-        $allCategory = $responseCategory->json()['categories'];
-
-        return view('site.agreements', ['agreements' => $agreements, 'allCategory' => $allCategory]);
+        return view('site.agreements', ['agreements' => $agreements]);
     }
 
 

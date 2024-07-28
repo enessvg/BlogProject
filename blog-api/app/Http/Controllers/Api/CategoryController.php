@@ -6,11 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class CategoryController extends Controller
 {
     public function index(){
-        $categories = Category::where('is_visible', 1)->get();
+        $categories = Cache::remember('_all_categories', now()->addMinutes(10), function(){
+            return Category::visible()->get();
+        });
 
         return response()->json([
             'status' => true,
@@ -20,7 +23,7 @@ class CategoryController extends Controller
     }
 
     public function show($slug){
-        $categories = Category::where('slug', $slug)->where('is_visible', 1)->first();
+        $categories = Category::where('slug', $slug)->visible()->first();
         if(!$categories){
             return response()->json([
                'status' => false,
@@ -28,7 +31,7 @@ class CategoryController extends Controller
             ], 404);
         }
 
-        $post = Post::where('category_id', $categories->id)->where('is_visible', 1)->get();
+        $post = Post::where('category_id', $categories->id)->visible()->get();
 
         return response()->json([
             'status' => true,
