@@ -7,6 +7,11 @@ use Illuminate\Support\Facades\Http;
 
 class CommentForm extends Component
 {
+    private $apiUrl;
+    public function __construct() {
+        $this->apiUrl = config('services.api_url');
+    }
+
     public $postId;
     public $name;
     public $email;
@@ -22,7 +27,7 @@ class CommentForm extends Component
     {
         $this->validate();
 
-        $response = Http::post('http://host.docker.internal:8181/api/comments', [
+        $response = Http::post($this->apiUrl.'api/comments', [
             'post_id' => $this->postId,
             'name' => $this->name,
             'email' => $this->email,

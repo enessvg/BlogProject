@@ -48,6 +48,11 @@ class Post extends Model
             Cache::forget('_popular_post');
         });
 
+        static::deleted(function($post){
+            Cache::forget('_all_posts');
+            Cache::forget('_popular_post');
+        });
+
     }
 
     public function scopeVisible(Builder $query)

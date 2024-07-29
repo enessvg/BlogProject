@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PostResource;
 use App\Models\Comments;
 use App\Models\Post;
 use Illuminate\Support\Facades\Cache;
@@ -21,7 +22,7 @@ class PostController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Listing successful',
-            'post' => $posts,
+            'post' => PostResource::collection($posts),
         ], 200);
     }
 
@@ -37,7 +38,7 @@ class PostController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Listing successful',
-            'post' => $posts,
+            'post' => PostResource::collection($posts),
         ], 200);
     }
 

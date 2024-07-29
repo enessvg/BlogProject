@@ -24,5 +24,10 @@ class Category extends Model
         static::saved(function(){
             Cache::forget('_all_categories');
         });
+
+        static::deleted(function($post){
+            Cache::forget('_all_categories');
+        });
+
     }
 }

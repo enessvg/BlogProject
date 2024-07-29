@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CategoryResource;
+use App\Http\Resources\PostResource;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -18,7 +20,7 @@ class CategoryController extends Controller
         return response()->json([
             'status' => true,
             'Messages' => 'Listing successful',
-            'categories'=> $categories,
+            'categories'=> CategoryResource::collection($categories),
         ], 200);
     }
 
@@ -36,7 +38,7 @@ class CategoryController extends Controller
         return response()->json([
             'status' => true,
             'categories' => $categories,
-            'posts' => $post,
+            'posts' => PostResource::collection($post),
         ]);
 
     }
