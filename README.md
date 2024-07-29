@@ -1,7 +1,7 @@
 <h1>FilamentPHP kullanılarak blog sitesi projenin kurulumu:</h1>
 
 blog-api klasörüne girin <br>
-<code>docker-compose up -d -build</code> <br>
+<code>docker-compose up -d --build</code> <br>
 komudunu çalıştırın.
 
 env dosyası için <br> <code>copy .env.example .env</code> <br> komutunu çalıştırın. Mail işlemleri içinde mail ayarlarınızı yapmayı unutmayın.
