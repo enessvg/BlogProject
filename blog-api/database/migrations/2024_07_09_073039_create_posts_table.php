@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained('categories')->cascadeOnDelete();
             $table->string('title');
             $table->string('slug')->unique();
-            $table->string('image')->nullable();
+            $table->string('image')->nullable()->default('default/default-image.png');
             $table->text('content');
             $table->boolean('is_visible')->default(false);
             $table->integer('post_views')->default(0);

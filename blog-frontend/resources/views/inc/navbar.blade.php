@@ -12,7 +12,7 @@
   <link href="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
   <link rel="stylesheet" href="{{ asset('css/prism.min.css') }}">
-
+  <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" type="image/png">
 </head>
 
 <body class="dark-mode">
