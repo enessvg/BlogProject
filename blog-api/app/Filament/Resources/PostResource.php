@@ -140,7 +140,7 @@ class PostResource extends Resource
         return $table
             ->columns([
                 ImageColumn::make('image')
-                ->defaultImageUrl(url('storage/default/default-image.jpg')),
+                ->defaultImageUrl(url('storage/default/default-image.png')),
 
                 TextColumn::make('title')
                 ->searchable()
