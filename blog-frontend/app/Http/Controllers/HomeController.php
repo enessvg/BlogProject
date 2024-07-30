@@ -26,7 +26,7 @@ class HomeController extends Controller
         ]);
     }
 
-    public function singleCategorie($slug){
+    public function singleCategory($slug){
 
         $response = Http::get($this->apiUrl."api/category/{$slug}");
 

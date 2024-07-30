@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Exceptions\NotFoundMessage;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\PostResource;
@@ -27,10 +28,7 @@ class CategoryController extends Controller
     public function show($slug){
         $categories = Category::where('slug', $slug)->visible()->first();
         if(!$categories){
-            return response()->json([
-               'status' => false,
-               'message' => 'The category you are trying to view was not found!'
-            ], 404);
+            throw new NotFoundMessage('category');
         }
 
         $post = Post::where('category_id', $categories->id)->visible()->get();

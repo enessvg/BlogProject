@@ -2,22 +2,27 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Exceptions\NotFoundMessage;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostResource;
 use App\Models\Comments;
 use App\Models\Post;
+use App\Services\PostService;
 use Illuminate\Support\Facades\Cache;
 
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+    protected $postService;
+
+    public function __construct(PostService $postService)
+    {
+        $this->postService = $postService;
+    }
+
     public function index(){
-        $posts = Cache::remember('_all_posts', now()->addMinutes(10), function () {
-            return Post::orderBy('id', 'desc') //en son ki yazı başa gelmesi için böyle yaptım.
-                ->visible()
-                ->get();
-        });
+        $posts = $this->postService->getAllPosts();
 
         return response()->json([
             'status' => true,
@@ -28,12 +33,7 @@ class PostController extends Controller
 
     public function popularPost()
     {
-        $posts = Cache::remember('_popular_post', now()->addMinutes(10), function(){
-            return Post::orderBy('post_views', 'desc')
-            ->visible()
-            ->limit(config('settings.popular_limit'))
-            ->get();
-        });
+        $posts = $this->postService->getPopularPosts();
 
         return response()->json([
             'status' => true,
@@ -43,35 +43,16 @@ class PostController extends Controller
     }
 
 
-    public function show($slug){
-        // Post'u slug ile bul
-        $post = Post::where('slug', $slug)->visible()->first();
-
-        if (!$post) {
-            return response()->json([
-                'status' => false,
-                'message' => 'The post you are trying to view was not found!'
-            ], 404);
-        }
-
-        //comment tablosundaki yorumlarda post_id'si uyuşuyorsa ve görünür haldeyse onları çağırıyorum.
-        $comments = Comments::where('post_id', $post->id)
-        ->where('is_visible', 1)
-        ->get();
-
-
-        // Bağlantılı tabloları dahil etmek için category_id sine göre categories tablosunda bulup onun ismini yazdırıyor user_id içinde aynı şekilde.
-        $postArray = $post->toArray();
-        $postArray['category_id'] = $post->category->name;
-        $postArray['user_id'] = $post->user->name;
+    public function show($slug)
+    {
+        $data = $this->postService->getPostBySlug($slug);
 
         return response()->json([
             'status' => true,
             'message' => 'Post found',
-            'post' => $postArray,
-            'comments' => $comments
+            'post' => $data['post'],
+            'comments' => $data['comments'],
         ], 200);
     }
-
 
 }

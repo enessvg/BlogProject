@@ -37,12 +37,6 @@ class Post extends Model
 
         parent::boot();
 
-        static::retrieved(function($post){
-            //Görüntülemeyi arttırmak için(To increase viewing)
-            $post->post_views += 1;
-            $post->save();
-        });
-
         static::created(function($post){
             Cache::forget('_all_posts');
             Cache::forget('_popular_post');

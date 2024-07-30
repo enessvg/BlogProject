@@ -18,7 +18,7 @@ Route::get('post/detail/{slug}', [FrontendPostController::class, 'show']);
 #Post
 
 #Category
-Route::get('/category/{slug}', [HomeController::class, 'singleCategorie']);
+Route::get('/category/{slug}', [HomeController::class, 'singleCategory']);
 #Category
 
 
