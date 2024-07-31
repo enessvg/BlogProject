@@ -45,14 +45,10 @@ class PostService
 
         $this->increaseView($post);
 
-        $postArray = $post->toArray();
-        $postArray['category_id'] = $post->category->name;
-        $postArray['user_id'] = $post->user->name;
-
-        return [
-            'post' => $postArray,
+         return [
+            'post' => $post,
             'comments' => $comments,
-        ];
+         ];
     }
 
 }

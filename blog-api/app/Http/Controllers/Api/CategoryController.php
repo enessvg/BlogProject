@@ -8,15 +8,22 @@ use App\Http\Resources\CategoryResource;
 use App\Http\Resources\PostResource;
 use App\Models\Category;
 use App\Models\Post;
+use App\Services\CategoryService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class CategoryController extends Controller
 {
+
+    protected $categoryService;
+
+    public function __construct(CategoryService $categoryService)
+    {
+        $this->categoryService = $categoryService;
+    }
+
     public function index(){
-        $categories = Cache::remember('_all_categories', now()->addMinutes(10), function(){
-            return Category::visible()->get();
-        });
+        $categories = $this->categoryService->getAllCategory();
 
         return response()->json([
             'status' => true,

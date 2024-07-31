@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Exceptions\NotFoundMessage;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CommentResource;
 use App\Http\Resources\PostResource;
+use App\Http\Resources\SinglePostResource;
 use App\Models\Comments;
 use App\Models\Post;
 use App\Services\PostService;
@@ -50,8 +52,8 @@ class PostController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Post found',
-            'post' => $data['post'],
-            'comments' => $data['comments'],
+            'post' => new SinglePostResource($data['post']),
+            'comments' => CommentResource::collection($data['comments']),
         ], 200);
     }
 

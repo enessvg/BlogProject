@@ -41,7 +41,7 @@
         </nav>
         <div style="display: flex;justify-content: center;">
             <img class="h-auto max-w-full rounded-lg shadow-xl dark:shadow-gray-800"
-                src="http://localhost:8181/storage/{{ $post['image'] }}" alt="image description">
+                src="{{ $post['image_url'] }}" alt="image description">
         </div>
 
         <div class="mt-3">
