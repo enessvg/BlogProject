@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreCommentRequest;
 use App\Jobs\SendSuperAdminEmailJob;
 use Illuminate\Http\Request;
 use App\Models\Comments;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;
 
@@ -22,22 +24,8 @@ class CommentController extends Controller
         ], 200);
     }
 
-    public function store(Request $request)
+    public function store(StoreCommentRequest $request)
     {
-
-        // Kontrol
-        $validator = Validator::make($request->all(), [
-            'post_id' => 'required',
-            'name' => 'required',
-            'email' => 'required',
-            'content' => 'required',
-        ]);
-
-        // Hata Mesajımı döndürüyorum
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
         try {
             // Yeni comment oluşturma
             $comment = new Comments();

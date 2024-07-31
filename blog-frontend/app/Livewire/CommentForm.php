@@ -18,7 +18,7 @@ class CommentForm extends Component
     public $content;
 
     protected $rules = [
-        'name' => 'required|string|max:255',
+        'name' => 'required|string|max:255|min:2',
         'email' => 'required|email|max:255',
         'content' => 'required|string',
     ];
