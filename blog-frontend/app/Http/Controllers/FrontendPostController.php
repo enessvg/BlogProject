@@ -20,9 +20,9 @@ class FrontendPostController extends Controller
         }
         else if($response->json()['status'] === true){
 
-        $post = $response->json()['post'];
+        $post = $response->json()['data']['post'];
 
-        $comments = $response->json()['comments'];
+        $comments = $response->json()['data']['comments'];
 
         return view('post-detail', ['post' => $post, 'comments' => $comments]);
         }

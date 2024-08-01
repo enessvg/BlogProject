@@ -9,11 +9,14 @@ use App\Http\Resources\PostResource;
 use App\Models\Category;
 use App\Models\Post;
 use App\Services\CategoryService;
+use App\Traits\ApiResponserTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class CategoryController extends Controller
 {
+
+    use ApiResponserTrait;
 
     protected $categoryService;
 
@@ -25,26 +28,27 @@ class CategoryController extends Controller
     public function index(){
         $categories = $this->categoryService->getAllCategory();
 
-        return response()->json([
-            'status' => true,
-            'Messages' => 'Listing successful',
+        return $this->successResponse([
             'categories'=> CategoryResource::collection($categories),
-        ], 200);
+        ], 'Successfully listed all categories');
     }
 
     public function show($slug){
-        $categories = Category::where('slug', $slug)->visible()->first();
+        $categories = Category::with(['posts' => function ($query){
+            $query->visible();
+        }])
+        ->where('slug', $slug)
+        ->visible()
+        ->first();
+
         if(!$categories){
             throw new NotFoundMessage('category');
         }
-
-        $post = Post::where('category_id', $categories->id)->visible()->get();
-
-        return response()->json([
-            'status' => true,
+        //$post = Post::where('category_id', $categories->id)->visible()->get();
+        return $this->successResponse([
             'categories' => $categories,
-            'posts' => PostResource::collection($post),
-        ]);
+            'posts' => $categories->posts,
+        ], 'Listing successful');
 
     }
 }

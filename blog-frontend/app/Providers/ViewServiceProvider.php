@@ -25,7 +25,7 @@ class ViewServiceProvider extends ServiceProvider
         View::composer('*', function ($view) {
             $apiUrl = config('services.api_url');
             $allCategoryResponse = Http::get($apiUrl . 'api/category');
-            $allCategory = $allCategoryResponse->json()['categories'];
+            $allCategory = $allCategoryResponse->json()['data']['categories'];
             $view->with('allCategory', $allCategory);
         });
 

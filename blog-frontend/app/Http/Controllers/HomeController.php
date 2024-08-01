@@ -15,10 +15,10 @@ class HomeController extends Controller
     public function index() {
 
         $allPostsResponse = Http::get($this->apiUrl.'api/post');
-        $allPosts = $allPostsResponse->json()['post'];
+        $allPosts = $allPostsResponse->json()['data']['post'];
 
         $popularPostsResponse = Http::get($this->apiUrl.'api/popular-post');
-        $popularPosts = $popularPostsResponse->json()['post'];
+        $popularPosts = $popularPostsResponse->json()['data']['post'];
 
         return view('home', [
             'allPosts' => $allPosts,
@@ -35,9 +35,9 @@ class HomeController extends Controller
             abort(404, 'The category you are trying to view was not found!');
         }
 
-        $categorie = $response->json()['categories'];
+        $categorie = $response->json()['data']['categories'];
 
-        $CategoryPost = $response->json()['posts'];
+        $CategoryPost = $response->json()['data']['posts'];
 
         return view('category', ['categorie' => $categorie, 'categoryPost' => $CategoryPost]);
     }

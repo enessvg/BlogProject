@@ -10,12 +10,16 @@ use App\Http\Resources\SinglePostResource;
 use App\Models\Comments;
 use App\Models\Post;
 use App\Services\PostService;
+use App\Traits\ApiResponserTrait;
 use Illuminate\Support\Facades\Cache;
 
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+
+    use ApiResponserTrait;
+
     protected $postService;
 
     public function __construct(PostService $postService)
@@ -26,22 +30,18 @@ class PostController extends Controller
     public function index(){
         $posts = $this->postService->getAllPosts();
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Listing successful',
+        return $this->successResponse([
             'post' => PostResource::collection($posts),
-        ], 200);
+        ], 'Successful listing of all posts');
     }
 
     public function popularPost()
     {
         $posts = $this->postService->getPopularPosts();
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Listing successful',
+        return $this->successResponse([
             'post' => PostResource::collection($posts),
-        ], 200);
+        ], 'Successful listing of popular posts');
     }
 
 
@@ -49,12 +49,10 @@ class PostController extends Controller
     {
         $data = $this->postService->getPostBySlug($slug);
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Post found',
+        return $this->successResponse([
             'post' => new SinglePostResource($data['post']),
             'comments' => CommentResource::collection($data['comments']),
-        ], 200);
+        ], 'Post found');
     }
 
 }
