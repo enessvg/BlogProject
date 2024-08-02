@@ -28,7 +28,7 @@ class PostController extends Controller
     }
 
     public function index(){
-        $posts = $this->postService->getAllPosts();
+        $posts = $this->postService->getAll();
 
         return $this->successResponse([
             'post' => PostResource::collection($posts),
@@ -47,7 +47,7 @@ class PostController extends Controller
 
     public function show($slug)
     {
-        $data = $this->postService->getPostBySlug($slug);
+        $data = $this->postService->getBySlug($slug);
 
         return $this->successResponse([
             'post' => new SinglePostResource($data['post']),

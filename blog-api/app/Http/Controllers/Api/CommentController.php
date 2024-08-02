@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Exceptions\NotFoundMessage;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCommentRequest;
 use App\Jobs\SendSuperAdminEmailJob;
@@ -16,12 +17,14 @@ use Spatie\Permission\Models\Role;
 class CommentController extends Controller
 {
     public function index(){
-        $comments = Comments::all();
-        return response()->json([
-            'status' => true,
-            'message' => 'Listing successful',
-            'post' => $comments,
-        ], 200);
+        // $comments = Comments::where('is_visible', 1)->get();
+        // return response()->json([
+        //     'status' => false,
+        //     'message' => '404',
+        //     // 'comments' => $comments,
+        // ], 200);
+        // abort(404);
+        throw new NotFoundMessage('comments');
     }
 
     public function store(StoreCommentRequest $request)

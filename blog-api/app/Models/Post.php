@@ -60,7 +60,7 @@ class Post extends Model
     }
     public function comments(){
 
-        return $this->hasMany(Comments::class);
+        return $this->hasMany(Comments::class); //hasmany sayesinde with kullanabiliyorum.
     }
 
     public function category(): BelongsTo

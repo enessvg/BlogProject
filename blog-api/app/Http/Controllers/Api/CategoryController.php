@@ -26,7 +26,7 @@ class CategoryController extends Controller
     }
 
     public function index(){
-        $categories = $this->categoryService->getAllCategory();
+        $categories = $this->categoryService->getAll();
 
         return $this->successResponse([
             'categories'=> CategoryResource::collection($categories),
@@ -34,16 +34,7 @@ class CategoryController extends Controller
     }
 
     public function show($slug){
-        $categories = Category::with(['posts' => function ($query){
-            $query->visible();
-        }])
-        ->where('slug', $slug)
-        ->visible()
-        ->first();
-
-        if(!$categories){
-            throw new NotFoundMessage('category');
-        }
+        $categories = $this->categoryService->getBySlug($slug);
         //$post = Post::where('category_id', $categories->id)->visible()->get();
         return $this->successResponse([
             'categories' => $categories,
