@@ -37,8 +37,8 @@ class CategoryController extends Controller
         $categories = $this->categoryService->getBySlug($slug);
         //$post = Post::where('category_id', $categories->id)->visible()->get();
         return $this->successResponse([
-            'categories' => new CategoryResource($categories),
-            'posts' => PostResource::collection($categories->posts),
+            'categories' => new CategoryResource($categories), //tekil olduğu için burada "new CategoryResource" olarak kullanıyorum.(object)
+            'posts' => PostResource::collection($categories->posts), //burada çoğul olduğu için koleksiyon "PostResource::collection" olarak kullanıyorum. (array)
         ], 'Listing successful');
 
     }
