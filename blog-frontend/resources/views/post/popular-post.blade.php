@@ -23,14 +23,15 @@
                 <div
                     class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 fixed-card">
                     <a href="post/detail/{{ $posts['slug'] }}" class="custom-center">
-
-                        @if(empty($posts['image']))
+                        <img class="rounded-t-lg fixed-image" src="{{ $posts['image_url'] }}"
+                        alt="" />
+                        {{-- @if(empty($posts['image']))
                         <img class="rounded-t-lg fixed-image" src="http://localhost:8181/storage/default/350-350.png"
                             alt="" />
                         @else
                         <img class="rounded-t-lg fixed-image" src="http://localhost:8181/storage/{{ $posts['image'] }}"
                         alt="" />
-                        @endif
+                        @endif --}}
                     </a>
                     <div class="p-5">
                         <a href="post/detail/{{ $posts['slug'] }}">

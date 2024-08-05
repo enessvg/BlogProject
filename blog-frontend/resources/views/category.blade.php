@@ -60,7 +60,7 @@
                         class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 fixed-card">
                         <a href="/post/detail/{{ $categorysPost['slug'] }}" class="custom-center">
                             <img class="rounded-t-lg fixed-image"
-                                src="http://localhost:8181/storage/{{ $categorysPost['image'] }}" alt="" />
+                                src="{{ $categorysPost['image_url'] }}" alt="" />
                         </a>
                         <div class="p-5">
                             <a href="#">

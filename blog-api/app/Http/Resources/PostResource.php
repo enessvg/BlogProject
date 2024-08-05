@@ -19,6 +19,7 @@ class PostResource extends JsonResource
             'title' => $this->title,
             'slug' => $this->slug,
             'image' => $this->image,
+            'image_url' => $this->image ? env('APP_URL').'/storage/'.$this->image : env('APP_URL').'/storage/'.env('DEFAULT_IMAGE'),
             'content' => $this->content,
             // 'user_id' => $this->user->name
             // 'category_id' => $this->category_id,

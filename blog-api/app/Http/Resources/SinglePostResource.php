@@ -22,7 +22,7 @@ class SinglePostResource extends JsonResource
             'title' => $this->title,
             'slug' => $this->slug,
             'image' => $this->image,
-            'image_url' => env('APP_URL').'/storage/'.$this->image,
+            'image_url' => $this->image ? env('APP_URL').'/storage/'.$this->image : env('APP_URL').'/storage/'.env('DEFAULT_IMAGE'),
             'content' => $this->content,
             'tags' => $this->tags,
             'post_views' => $this->post_views,
