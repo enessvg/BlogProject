@@ -14,13 +14,10 @@ trait ApiResponserTrait
         ], $httpResponseCode);
     }
 
-    // protected function errorResponse(string $message, ?array $errors = [], int $httpResponseCode = 400): JsonResponse {
-    //     return response()->json([
-    //         'status' => false,
-    //         'message'    => $message ?? null,
-    //         'data'       => null,
-    //         'errors'     => $errors ?? null,
-    //     ], $httpResponseCode);
-
-    // }
+     protected function errorResponse(string $message, int $httpResponseCode = 404): JsonResponse {
+         return response()->json([
+             'status' => false,
+             'message'    => $message ?? null,
+         ], $httpResponseCode);
+     }
 }

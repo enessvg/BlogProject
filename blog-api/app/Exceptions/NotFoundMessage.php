@@ -3,9 +3,13 @@
 namespace App\Exceptions;
 
 use Exception;
+use App\Traits\ApiResponserTrait;
+
 
 class NotFoundMessage extends Exception
 {
+
+    use ApiResponserTrait;
     protected $resource;
 
     public function __construct($resource = "resource", $code = 404, Exception $previous = null)
@@ -16,9 +20,6 @@ class NotFoundMessage extends Exception
     }
 
     public function render($request){
-        return response()->json([
-            'status' => false,
-            'message' => $this->getMessage(),
-        ], $this->getCode());
+        return $this->errorResponse($this->getMessage(), $this->getCode());
     }
 }
